@@ -84,7 +84,13 @@ exports.Twitter = (function(global) {
     actInd.show();
     loadingOverlay.add(actInd);
     webViewWindow.add(loadingOverlay);
-    webViewWindow.open({modal: true});
+    //TODO aとb決める
+    if (Ti.UI.iOS != null && require('pot.js').compareVersions(a, b) >= 0) {
+    	
+    } else{
+    	webViewWindow.open({modal: true});
+    };
+    
     
     webViewWindow.add(webView);
 

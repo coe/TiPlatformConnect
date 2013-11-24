@@ -1,6 +1,6 @@
 (function () {
-    Ti.Facebook.appid = 'XXXXXXXXXXXXXXX';
-    Ti.Facebook.permissions = ['publish_stream', 'offline_access'];
+    //Ti.Facebook.appid = 'XXXXXXXXXXXXXXX';
+    //Ti.Facebook.permissions = ['publish_stream', 'offline_access'];
     var configJSON, file, config;
     configJSON = Titanium.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory, 'config.json');
     file = configJSON.read().toString();
@@ -168,7 +168,7 @@
                 });
             }
 
-            if (Ti.Facebook.getLoggedIn() && facebookSwitch.value) {
+            if (true && facebookSwitch.value) {
                 params = {};
 
                 if (photoImageView.image) {
@@ -187,9 +187,9 @@
                     };
                 }
 
-                Ti.Facebook.requestWithGraphPath(path, params, 'POST', function (e) {
-                    Ti.API.info(e);
-                });
+                // Ti.Facebook.requestWithGraphPath(path, params, 'POST', function (e) {
+                    // Ti.API.info(e);
+                // });
             }
 
             if (tumblr.authorized && tumblrSwitch.value && tumblrBlog.name && tumblrBlog.title) {
@@ -583,41 +583,41 @@
         Ti.App.Properties.setBool('facebookShareSwitch', e.value);
     });
 
-    if (Ti.Facebook.getLoggedIn()) {
-        Ti.Facebook.requestWithGraphPath('me', {}, 'GET', function (e) {
-            if (e.success) {
-                var json = JSON.parse(e.result);
-                facebookLabel.setText(json.name + ' on Facebook');
-                facebookRow.add(facebookSwitch);
-            }
-        });
-    } else {
-        facebookRow.touchEnabled = true;
-        facebookRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.BLUE;
+    // if (true) {
+        // // Ti.Facebook.requestWithGraphPath('me', {}, 'GET', function (e) {
+            // // if (e.success) {
+                // // var json = JSON.parse(e.result);
+                // // facebookLabel.setText(json.name + ' on Facebook');
+                // // facebookRow.add(facebookSwitch);
+            // // }
+        // // });
+    // } else {
+        // facebookRow.touchEnabled = true;
+        // facebookRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.BLUE;
+// 
+        // facebookRow.addEventListener('click', function () {
+            // Ti.Facebook.authorize();
+        // });
+    // }
 
-        facebookRow.addEventListener('click', function () {
-            Ti.Facebook.authorize();
-        });
-    }
-
-    Ti.Facebook.addEventListener('login', function (e) {
-        if (e.success) {
-            Ti.Facebook.requestWithGraphPath('me', {}, {}, 'GET', function (e) {
-                if (e.success) {
-                    var json = JSON.parse(e.result);
-                    facebookLabel.setText(json.name + ' on Facebook');
-                    facebookRow.add(facebookSwitch);
-                }
-            });
-
-            facebookRow.touchEnabled = false;
-            facebookRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
-        } else if (e.error) {
-            // error proc...
-        } else if (e.cancelled) {
-            // cancel proc...
-        }
-    });
+    // Ti.Facebook.addEventListener('login', function (e) {
+        // if (e.success) {
+            // Ti.Facebook.requestWithGraphPath('me', {}, {}, 'GET', function (e) {
+                // if (e.success) {
+                    // var json = JSON.parse(e.result);
+                    // facebookLabel.setText(json.name + ' on Facebook');
+                    // facebookRow.add(facebookSwitch);
+                // }
+            // });
+// 
+            // facebookRow.touchEnabled = false;
+            // facebookRow.selectionStyle = Ti.UI.iPhone.TableViewCellSelectionStyle.NONE;
+        // } else if (e.error) {
+            // // error proc...
+        // } else if (e.cancelled) {
+            // // cancel proc...
+        // }
+    // });
 
     var linkedinRow = Ti.UI.createTableViewRow({
         height: Ti.UI.FILL,
