@@ -1,4 +1,25 @@
 var exports = exports || this;
+function compVersions(strV1, strV2) {
+  var nRes = 0
+    , parts1 = strV1.split('.')
+    , parts2 = strV2.split('.')
+    , nLen = Math.max(parts1.length, parts2.length);
+ 
+  for (var i = 0; i < nLen; i++) {
+    var nP1 = (i < parts1.length) ? parseInt(parts1[i], 10) : 0
+      , nP2 = (i < parts2.length) ? parseInt(parts2[i], 10) : 0;
+ 
+    if (isNaN(nP1)) { nP1 = 0; }
+    if (isNaN(nP2)) { nP2 = 0; }
+ 
+    if (nP1 != nP2) {
+      nRes = (nP1 > nP2) ? 1 : -1;
+      break;
+    }
+  }
+ 
+  return nRes;
+};
 exports.Twitter = (function(global) {
   var K = function(){}, isAndroid = Ti.Platform.osname === "android", jsOAuth = require('jsOAuth-1.3.3');
   
@@ -85,8 +106,13 @@ exports.Twitter = (function(global) {
     loadingOverlay.add(actInd);
     webViewWindow.add(loadingOverlay);
     //TODO aとb決める
-    if (Ti.UI.iOS != null && require('pot.js').compareVersions(a, b) >= 0) {
-    	
+    Ti.API.debug("tiver:"+Titanium.version);
+    if (Ti.UI.iOS != null && compVersions(Titanium.version, "3.1.3") >= 0) {
+    	navWin = Ti.UI.iOS.createNavigationWindow({
+		    modal: true,
+			window: webViewWindow
+		});
+		navWin.open();
     } else{
     	webViewWindow.open({modal: true});
     };
