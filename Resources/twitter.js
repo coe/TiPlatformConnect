@@ -95,7 +95,7 @@ exports.Twitter = (function(global) {
 		}), backButton = Ti.UI.createButton({
 			title : this.windowBack
 		});
-
+		var navWin = null;
 		this.webView = webView;
 
 		webViewWindow.leftNavButton = closeButton;
@@ -105,7 +105,7 @@ exports.Twitter = (function(global) {
 		webViewWindow.add(loadingOverlay);
 		//TODO aとb決める
 		Ti.API.debug("tiver:" + Titanium.version);
-		var navWin = null;
+		
 		if (Ti.UI.iOS != null && compVersions(Titanium.version, "3.1.3") >= 0) {
 			navWin = Ti.UI.iOS.createNavigationWindow({
 				modal : true,
@@ -170,6 +170,7 @@ exports.Twitter = (function(global) {
 					actInd.hide();
 				} else {
 					if (!isAndroid) {// on iOS we can close the modal window right away
+						if (navWin != null) navWin.close();
 						webViewWindow.close();
 					}
 
@@ -185,6 +186,7 @@ exports.Twitter = (function(global) {
 						});
 						self.authorized = true;
 						if (isAndroid) {// we have to wait until now to close the modal window on Android: http://developer.appcelerator.com/question/91261/android-probelm-with-httpclient
+							if (navWin != null) navWin.close();
 							webViewWindow.close();
 						}
 					}, function(data) {
